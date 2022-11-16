@@ -1,17 +1,15 @@
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Recipe {
     private String name;
     private double sumPrice;
-    private ArrayList<Product> products;
+    private HashMap<Product, Double> products;
 
-    public Recipe(String name) {
-        this(name, new ArrayList<>());
-    }
-
-    public Recipe(String name, ArrayList<Product> products) {
+    public Recipe(String name, HashMap<Product, Double> products) {
         setName(name);
         setProducts(products);
     }
@@ -24,7 +22,7 @@ public class Recipe {
         return sumPrice;
     }
 
-    public ArrayList<Product> getProducts() {
+    public HashMap<Product, Double> getProducts() {
         return products;
     }
 
@@ -36,15 +34,15 @@ public class Recipe {
         }
     }
 
-    public void setProducts(ArrayList<Product> products) {
+    public void setProducts(HashMap<Product, Double> products) {
         this.sumPrice = calcPrice(products);
         this.products = products;
     }
 
-    public double calcPrice(ArrayList<Product> products) {
-        double price = 0.0;
-        for (Product element : products) {
-            price += element.getPrice();
+    public double calcPrice(HashMap<Product, Double> products) {
+        double price = 0d;
+        for (Map.Entry<Product, Double> element: products.entrySet()) {
+            price += element.getKey().getPrice();
         }
         return price;
     }

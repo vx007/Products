@@ -1,59 +1,63 @@
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class Main {
-    public static ArrayList<Product> products1 = new ArrayList<>();
-    public static ArrayList<Product> products2 = new ArrayList<>();
-    public static HashSet<Recipe> recipes = new HashSet<>();
+    public static ArrayList<Recipe> recipes = new ArrayList<>();
+    public static HashMap<Product, Double> products1 = new HashMap<>();
+    public static HashMap<Product, Double> products2 = new HashMap<>();
 
     public static void main(String[] args) {
 
         try {
-            addProductToList(products1, new Product("Бананы", 120, 0.125));
-            addProductToList(products1, new Product("Хлеб", 30, 3));
-            addProductToList(products1, new Product("Молоко", 100, 1));
+            addProduct(products1, new Product("Хлеб", 20));
+            addProduct(products1, new Product("Масло", 50));
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
-        } finally {
-            System.out.println("1й список продуктов: " + products1);
         }
 
         try {
-            addProductToList(products2, new Product("Яйцо", 200, 0.1));
-            addProductToList(products2, new Product("Майонез", 50, 1));
+            addProduct(products2, new Product("Помидор", 30), 10d);
+            addProduct(products2, new Product("Огурец", 20), 10d);
+            addProduct(products2, new Product("Майонез", 100));
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
-        } finally {
-            System.out.println("2й список продуктов: " + products2);
         }
 
         try {
-            addRecipe(recipes, new Recipe("Банановый хлеб с молоком", products1));
-            addRecipe(recipes, new Recipe("Яйцо с майонезом", products2));
+            addRecipe(recipes, new Recipe("Бутерброд", products1));
+            addRecipe(recipes, new Recipe("Салад", products2));
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
-        } finally {
-            System.out.println("Список рецептов: " + recipes);
         }
 
+        System.out.println(recipes);
 
     }
 
-    public static void addProductToList(ArrayList<Product> products, Product product) {
-        if (!products.contains(product)) {
-            products.add(product);
+    public static void addProduct(HashMap<Product, Double> map, Product product, Double amount) {
+        if (!map.containsKey(product)) {
+            map.put(product, amount);
         } else {
             throw new IllegalArgumentException("Продукт уже есть!");
         }
     }
 
-    public static void addRecipe(HashSet<Recipe> recipes, Recipe recipe) {
-        if (!recipes.contains(recipe)) {
-            recipes.add(recipe);
+    public static void addProduct(HashMap<Product, Double> map, Product product) {
+        if (!map.containsKey(product)) {
+            map.put(product, 1d);
         } else {
-            throw new IllegalArgumentException("Рецепт с таким названием уже есть!");
+            throw new IllegalArgumentException("Продукт уже есть!");
         }
     }
 
+    public static void addRecipe(ArrayList<Recipe> list, Recipe recipe) {
+        if (!list.contains(recipe)) {
+            list.add(recipe);
+        } else {
+            throw new IllegalArgumentException("Рецепт уже есть!");
+        }
+    }
 
 }

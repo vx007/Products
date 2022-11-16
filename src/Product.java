@@ -4,12 +4,10 @@ import java.util.Objects;
 public class Product {
     private String name;
     private double price;
-    private double weight;
 
-    public Product(String name, double price, double weight) {
+    public Product(String name, double price) {
         setName(name);
         setPrice(price);
-        setWeight(weight);
     }
 
     public String getName() {
@@ -29,28 +27,16 @@ public class Product {
     }
 
     public void setPrice(double price) {
-        if (price > 0){
+        if (price > 0) {
             this.price = price;
         } else {
             throw new InvalidParameterException("Неверно указана цена!");
         }
     }
 
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        if (weight > 0) {
-            this.weight = weight;
-        } else {
-            throw new InvalidParameterException("Неверно указано КОЛИЧЕСТВО!");
-        }
-    }
-
     @Override
     public String toString() {
-        return String.format("'%s'(Цена %.2f руб, Вес %.2f кг)", name, price, weight);
+        return String.format("'%s'(Цена %.2f руб)", name, price);
     }
 
     @Override
@@ -63,12 +49,11 @@ public class Product {
         }
         Product product = (Product) obj;
         return Double.compare(product.price, price) == 0 &&
-               Double.compare(product.weight, weight) == 0 &&
-               name.equals(product.name);
+                name.equals(product.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, price, weight);
+        return Objects.hash(name, price);
     }
 }
